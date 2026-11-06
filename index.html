@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ta">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MY APK BUILDER</title><link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header><div class="logo">MY <span>APK</span> BUILDER</div><small>உங்கள் சொந்த APK உருவாக்கும் தளம்</small></header>
+<main>
+<section class="hero"><p class="tag">VERSION 1.0 · HTML / ZIP</p><h1>உங்கள் Website-ஐ<br><span>Android APK</span> ஆக மாற்றுங்கள்</h1><p>HTML அல்லது ZIP project-ஐ upload செய்து APK உருவாக்குங்கள்.</p></section>
+<form id="buildForm">
+<label for="appName">App Name</label><input id="appName" name="appName" maxlength="40" value="My Web App" required>
+<label for="projectFile">HTML அல்லது ZIP கோப்பு</label>
+<input id="projectFile" name="projectFile" type="file" accept=".html,.htm,.zip" required>
+<p class="hint">ZIP கோப்புக்குள் index.html இருக்க வேண்டும்.</p>
+<button id="buildBtn" type="submit">APK உருவாக்கு</button>
+<p id="status" role="status"></p>
+</form>
+<section class="note"><b>அடுத்த கட்டங்களில்:</b> Website URL, App Icon, Splash Screen, Android Project Import.</section>
+</main>
+<footer>MY APK BUILDER · சொந்த Build Server தேவை</footer>
+<script src="/app.js"></script>
+</body></html>
