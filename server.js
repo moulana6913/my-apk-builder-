@@ -13,7 +13,7 @@ const execFileAsync = promisify(execFile);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = process.env.PORT || 3000;
-const ROOT = path.resolve(__dirname, "..");
+const ROOT = __dirname;
 const PUBLIC = path.join(ROOT, "public");
 const WORK = path.join(ROOT, "work");
 await fs.mkdir(WORK, { recursive: true });
