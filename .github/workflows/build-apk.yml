@@ -1,8 +1,10 @@
-
 name: MY APK BUILDER
 
 on:
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   build:
@@ -23,14 +25,16 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Accept Android SDK Licenses
-        run: |
-          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v4
+        with:
+          accept-android-sdk-licenses: true
+          log-accepted-android-sdk-licenses: false
+          packages: platform-tools
 
       - name: Install Android SDK
         run: |
-          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" \
-            "platform-tools" \
+          sdkmanager --install \
             "platforms;android-35" \
             "build-tools;35.0.0"
 
@@ -56,3 +60,4 @@ jobs:
         with:
           name: MY-APK-BUILDER
           path: android-project/app/build/outputs/apk/debug/app-debug.apk
+          
