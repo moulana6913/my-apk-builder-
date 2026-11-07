@@ -1,10 +1,8 @@
+
 name: MY APK BUILDER
 
 on:
   workflow_dispatch:
-
-permissions:
-  contents: read
 
 jobs:
   build:
@@ -26,17 +24,12 @@ jobs:
           node-version: '20'
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v4
-        with:
-          accept-android-sdk-licenses: true
-          log-accepted-android-sdk-licenses: false
-          packages: platform-tools
+        uses: android-actions/setup-android@v3
 
       - name: Install Android SDK
         run: |
-          sdkmanager --install \
-            "platforms;android-35" \
-            "build-tools;35.0.0"
+          yes | sdkmanager --licenses
+          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -50,14 +43,32 @@ jobs:
         run: |
           node --input-type=module -e "import('./webview-project.js').then(m => m.createAndroidProject({projectDir:'android-project',sourceDir:'public',appName:'My APK Builder',packageName:'com.myapkbuilder.generated'}))"
 
+      - name: Fix Kotlin Duplicate Classes
+        run: |
+          cat > /tmp/kotlin-fix.gradle <<'EOF'
+          allprojects {
+              configurations.configureEach {
+                  resolutionStrategy.eachDependency { details ->
+                      if (details.requested.group == 'org.jetbrains.kotlin' &&
+                          details.requested.name in [
+                              'kotlin-stdlib',
+                              'kotlin-stdlib-jdk7',
+                              'kotlin-stdlib-jdk8'
+                          ]) {
+                          details.useVersion '1.8.22'
+                      }
+                  }
+              }
+          }
+          EOF
+
       - name: Build APK
         run: |
           cd android-project
-          gradle --no-daemon assembleDebug
+          gradle --no-daemon --init-script /tmp/kotlin-fix.gradle assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: MY-APK-BUILDER
           path: android-project/app/build/outputs/apk/debug/app-debug.apk
-          
