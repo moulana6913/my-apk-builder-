@@ -4,25 +4,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <title>MY APK BUILDER</title>
+
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
   <div class="container">
+
     <h1>MY APK BUILDER</h1>
+
     <p>Create Your Own Android APK</p>
 
     <label>Application Name</label>
-    <input type="text" id="appName" placeholder="Enter App Name" value="MyWebApp">
+
+    <input
+      type="text"
+      id="appName"
+      placeholder="Enter App Name"
+      value="MyWebApp"
+    >
 
     <label>Select Project File</label>
-    <input type="file" id="projectFile" accept=".html,.htm,.zip">
 
-    <button id="buildButton">BUILD APK</button>
+    <input
+      type="file"
+      id="projectFile"
+      accept=".html,.htm,.zip"
+    >
 
-    <div id="status">Ready to build your APK!</div>
+    <button id="buildButton">
+      BUILD APK
+    </button>
+
+    <div id="status">
+      Ready to build your APK!
+    </div>
+
   </div>
 
   <script src="app.js"></script>
+
 </body>
 </html>
